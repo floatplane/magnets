@@ -1,38 +1,57 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  gap: 0px;
+  min-height: 100vh;
+}
+
+.DropTarget {
+  background-color: #342c28;
+  min-height: 15vh;
+  flex-grow: 1;
+  display: flex;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.Source {
+  background-color: #282c34;
+  max-height: 85vh;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: left;
+  justify-content: left;
+  font-size: calc(10px + 1vmin);
   color: white;
+  flex-grow: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.SourceRow {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  justify-content: left;
+  gap: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Buttons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 }
+
+.Word {
+  border: 1px solid gray;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  margin-right: 1.5rem;
+  margin-bottom: 1.5rem;
+  cursor: move;
+  float: left;
+  color: #020802;
+};
