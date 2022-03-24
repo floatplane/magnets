@@ -42,7 +42,25 @@
   right: 10px;
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 4px;
+}
+
+.Button {
+  border: 1px solid gray;
+  padding: 0.25rem;
+  margin: .25rem;
+  color: white;
+  font-size: calc(8px + 1vmin);
+}
+
+.Instructions {
+  border: 1px solid gray;
+  padding: 0.5rem 1rem;
+  margin: .5rem;
+  cursor: move;
+  color: white;
+  font-size: calc(10px + 1vmin);
+  float: left;
 }
 
 .Word {
@@ -53,8 +71,5 @@
   cursor: move;
   color: #020802;
   font-size: calc(10px + 1vmin);
-  /* height: auto; */
-  /* flex-grow: 0; */
-  /* flex-shrink: 0; */
   float: left;
-};
+}

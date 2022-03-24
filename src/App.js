@@ -10,6 +10,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "./App.css";
 
 var rng = seedrandom("hello oscars.");
+seedrandom("hello oscars.", { global: true });
 
 const titles = [
   "the worst person in the world",
@@ -26,6 +27,34 @@ const titles = [
   "licorice pizza",
   "nightmare alley",
   "west side story",
+  "tick, tick...BOOM!",
+  "being the ricardos",
+  "the tragedy of macbeth",
+  "the eyes of tammy faye",
+  "spencer",
+  "the lost daughter",
+  "starring featuring performance of the year",
+  "best supporting actor actress picture",
+  "andrew garfield",
+  "javier bardem",
+  "will smith",
+  "benedict cumberbatch",
+  "denzel washington",
+  "jessica chastain",
+  "kristen stewart",
+  "penélope cruz",
+  "olivia colman",
+  "nicole kidman",
+  "troy kotsur",
+  "j.k. simmons",
+  "jesse plemons",
+  "kodi smit-mcphee",
+  "ciarán hinds",
+  "kirsten dunst",
+  "jessie buckley",
+  "judi dench",
+  "ariana debose",
+  "aunjanue ellis",
 ];
 
 const wordList = titles.flatMap((t, row) => {
@@ -106,19 +135,35 @@ const DropTarget = () => {
   return (
     <div className="DropTarget" ref={drop} style={{ ...style }}>
       <div className="Buttons">
-        <button onClick={onUndo} disabled={words.length == 0}>
+        <button
+          className="Button"
+          onClick={onUndo}
+          disabled={words.length === 0}
+        >
           Undo
         </button>
-        <button onClick={onRedo} disabled={undoStack.length == 0}>
+        <button
+          className="Button"
+          onClick={onRedo}
+          disabled={undoStack.length === 0}
+        >
           Redo
         </button>
-        <button onClick={onCopy} disabled={words.length == 0}>
+        <button
+          className="Button"
+          onClick={onCopy}
+          disabled={words.length === 0}
+        >
           Copy
         </button>
-        <button onClick={onReset}>Reset</button>
+        <button className="Button" onClick={onReset}>
+          Reset
+        </button>
       </div>
-      {words.length == 0 && (
-        <div className="Empty">Drag some words up here</div>
+      {words.length === 0 && (
+        <div className="Instructions" key="line1">
+          Drag words here
+        </div>
       )}
       {words.map((word) => (
         <Word name={word.name} style={word.style} key={uuidv4()} />
