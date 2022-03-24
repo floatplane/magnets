@@ -1,9 +1,9 @@
 import { useDrag } from "react-dnd";
 
-const Word = function Word({ name }) {
+const Word = function Word({ name, style = {} }) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "word",
-    item: { name },
+    item: { name, style },
     end: (item, monitor) => {
       const dropResult = monitor.getDropResult();
       if (item && dropResult) {
@@ -18,7 +18,7 @@ const Word = function Word({ name }) {
 
   const opacity = isDragging ? 0.4 : 1;
   return (
-    <div ref={drag} style={{ opacity }} className="Word">
+    <div ref={drag} style={{ opacity, ...style }} className="Word">
       {name}
     </div>
   );

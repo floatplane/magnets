@@ -1,11 +1,15 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
+import seedrandom from "seedrandom";
+import please from "pleasejs";
 
 import Word from "./Word";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import "./App.css";
+
+var rng = seedrandom("hello oscars.");
 
 const titles = [
   "the worst person in the world",
@@ -23,6 +27,20 @@ const titles = [
   "nightmare alley",
   "west side story",
 ];
+
+const wordList = titles.flatMap((t, row) => {
+  const words = t.split(" ");
+  const rowColor = please.make_color({
+    value: 0.75 + 0.1 * (rng() - 0.5),
+  });
+  return words.map((word, col) => ({
+    word,
+    row,
+    col,
+    rowColor,
+    angle: 6.0 * (rng() - 0.5),
+  }));
+});
 
 const DropTarget = () => {
   const style: CSSProperties = {
@@ -68,7 +86,11 @@ const DropTarget = () => {
       drop: (item, monitor) => {
         const offset = monitor.getClientOffset();
         console.log("inside drop", item);
-        const nextList = words.concat({ name: item.name, offset });
+        const nextList = words.concat({
+          name: item.name,
+          style: item.style,
+          offset,
+        });
         console.log("next dropped words", nextList);
         setWords(nextList);
         return { name: "DropTarget" };
@@ -99,7 +121,7 @@ const DropTarget = () => {
         <div className="Empty">Drag some words up here</div>
       )}
       {words.map((word) => (
-        <Word name={word.name} key={uuidv4()} />
+        <Word name={word.name} style={word.style} key={uuidv4()} />
       ))}
     </div>
   );
@@ -111,16 +133,16 @@ function App() {
       <div className="App">
         <DropTarget key="Drop" />
         <div className="Source" key="Source">
-          {titles.map((t, row) => {
-            const words = t.split(" ");
-            return (
-              <div className="SourceRow">
-                {words.map((w, col) => (
-                  <Word name={w} key={`${row}-${col}`} />
-                ))}
-              </div>
-            );
-          })}
+          {wordList.map(({ word, row, rowColor, col, angle }) => (
+            <Word
+              name={word}
+              key={uuidv4()}
+              style={{
+                transform: `rotate(${angle}deg`,
+                backgroundColor: rowColor,
+              }}
+            />
+          ))}
         </div>
       </div>
     </DndProvider>
