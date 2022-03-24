@@ -27,13 +27,13 @@ const titles = [
   "licorice pizza",
   "nightmare alley",
   "west side story",
-  "tick, tick...BOOM!",
+  "tick, tick ...BOOM!",
   "being the ricardos",
   "the tragedy of macbeth",
   "the eyes of tammy faye",
   "spencer",
   "the lost daughter",
-  "starring featuring performance of the year",
+  "starring featuring as",
   "best supporting actor actress picture",
   "andrew garfield",
   "javier bardem",
@@ -109,18 +109,17 @@ const DropTarget = () => {
     navigator.clipboard.writeText(str);
   };
 
-  const [props, drop] = useDrop(
+  const [, drop] = useDrop(
     () => ({
       accept: "word",
       drop: (item, monitor) => {
         const offset = monitor.getClientOffset();
-        console.log("inside drop", item);
+        console.log("inside drop", item, offset);
         const nextList = words.concat({
           name: item.name,
           style: item.style,
           offset,
         });
-        console.log("next dropped words", nextList);
         setWords(nextList);
         return { name: "DropTarget" };
       },
@@ -176,7 +175,7 @@ function App() {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="App">
-        <DropTarget key="Drop" />
+        <DropTarget />
         <div className="Source" key="Source">
           {wordList.map(({ word, row, rowColor, col, angle }) => (
             <Word
