@@ -10,7 +10,6 @@ import "./App.css";
 const titles = [
   "the worst person in the world",
   "don't look up",
-  "dune",
   "encanto",
   "parallel mothers",
   "the power of the dog",
