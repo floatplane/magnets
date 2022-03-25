@@ -7,7 +7,7 @@
 }
 
 .DropTarget {
-  background-color: #342c28;
+  background-color: #3c3f48;
   min-height: 30vh;
   flex-grow: 1;
   display: flex;
@@ -26,6 +26,9 @@
   /* justify-content: left; */
   color: white;
   flex-grow: 2;
+  text-align: center;
+  padding-left: 5vh;
+  padding-right: 5vh;
 }
 
 .SourceRow {
@@ -46,6 +49,7 @@
 }
 
 .Button {
+  background-color: #282c34;
   border: 1px solid gray;
   padding: 0.25rem;
   margin: .25rem;
@@ -71,5 +75,12 @@
   cursor: move;
   color: #020802;
   font-size: calc(10px + 1vmin);
-  float: left;
+}
+
+.Close {
+    position: absolute;
+    top: -0.75rem;
+    right: -0.75rem;
+    padding: 0.25rem;
+    border-radius: .5rem;
 }

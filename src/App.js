@@ -82,39 +82,35 @@ const DropTarget = () => {
   };
 
   const [words, setWords] = React.useState([]);
-  const [undoStack, setUndoStack] = React.useState([]);
-
-  const onUndo = () => {
-    if (words.length > 0) {
-      setUndoStack(undoStack.concat(words[words.length - 1]));
-      setWords(words.slice(0, -1));
-    }
-  };
-
-  const onRedo = () => {
-    if (undoStack.length > 0) {
-      setUndoStack(undoStack.slice(0, -1));
-      setWords(words.concat(undoStack[undoStack.length - 1]));
-    }
-  };
 
   const onReset = () => {
     setWords([]);
-    setUndoStack([]);
   };
 
   const onCopy = () => {
-    const str = words.map((w) => w.name).join(" ");
+    console.log(words);
+    const str = [...words]
+      .sort((a, b) => (a.offset.x > b.offset.x ? 1 : -1))
+      .map((w) => w.name)
+      .join(" ");
     console.log("copy:", str);
-    navigator.clipboard.writeText(str);
+    navigator.clipboard.writeText(`"${str}"`);
+  };
+
+  const deleteWord = (index) => {
+    const nextWords = [...words];
+    nextWords.splice(index, 1);
+    setWords(nextWords);
   };
 
   const [, drop] = useDrop(
     () => ({
       accept: "word",
       drop: (item, monitor) => {
-        const offset = monitor.getClientOffset();
-        console.log("inside drop", item, offset);
+        const offset = monitor.getSourceClientOffset();
+        if (item.boardIndex !== -1) {
+          words.splice(item.boardIndex, 1);
+        }
         const nextList = words.concat({
           name: item.name,
           style: item.style,
@@ -123,10 +119,6 @@ const DropTarget = () => {
         setWords(nextList);
         return { name: "DropTarget" };
       },
-      collect: (monitor) => ({
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
-      }),
     }),
     [words]
   );
@@ -134,20 +126,6 @@ const DropTarget = () => {
   return (
     <div className="DropTarget" ref={drop} style={{ ...style }}>
       <div className="Buttons">
-        <button
-          className="Button"
-          onClick={onUndo}
-          disabled={words.length === 0}
-        >
-          Undo
-        </button>
-        <button
-          className="Button"
-          onClick={onRedo}
-          disabled={undoStack.length === 0}
-        >
-          Redo
-        </button>
         <button
           className="Button"
           onClick={onCopy}
@@ -164,9 +142,26 @@ const DropTarget = () => {
           Drag words here
         </div>
       )}
-      {words.map((word) => (
-        <Word name={word.name} style={word.style} key={uuidv4()} />
-      ))}
+      {words.map((word, index) => {
+        console.log(
+          `drawing ${word.name} at (${word.offset.x}, ${word.offset.y})`
+        );
+        return (
+          <Word
+            name={word.name}
+            onBoard={true}
+            boardIndex={index}
+            style={{
+              ...word.style,
+              position: "absolute",
+              left: word.offset.x,
+              top: word.offset.y,
+            }}
+            key={uuidv4()}
+            onClose={() => deleteWord(index)}
+          />
+        );
+      })}
     </div>
   );
 };
@@ -180,10 +175,12 @@ function App() {
           {wordList.map(({ word, row, rowColor, col, angle }) => (
             <Word
               name={word}
+              onBoard={false}
               key={uuidv4()}
               style={{
                 transform: `rotate(${angle}deg`,
                 backgroundColor: rowColor,
+                display: "inline-block",
               }}
             />
           ))}
