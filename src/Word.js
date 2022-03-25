@@ -12,6 +12,7 @@ const Word = function Word({
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "word",
     item: { name, style, onBoard, boardIndex },
+    options: { dropEffect: "copy" },
   }));
 
   const [hovered, setHovered] = React.useState(false);

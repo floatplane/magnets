@@ -141,7 +141,10 @@ const DropTarget = () => {
         const nextList = words.concat({
           name: item.name,
           style: item.style,
-          offset,
+          offset: {
+            x: offset.x + window.visualViewport.pageLeft,
+            y: offset.y + window.visualViewport.pageTop,
+          },
         });
         setWords(nextList);
         return { name: "DropTarget" };
