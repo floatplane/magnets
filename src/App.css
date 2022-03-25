@@ -1,3 +1,7 @@
+body {
+  background-color: #282c34;
+}
+
 .App {
   text-align: center;
   display: flex;
@@ -18,7 +22,7 @@
 
 .Source {
   background-color: #282c34;
-  max-height: 70vh;
+  min-height: 70vh;
   /* display: flex; */
   /* flex-flow: row wrap; */
   /* gap: 10px; */

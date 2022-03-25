@@ -33,8 +33,26 @@ const titles = [
   "the eyes of tammy faye",
   "spencer",
   "the lost daughter",
-  "starring featuring as",
-  "best supporting actor actress picture",
+];
+
+const others = [
+  "starring",
+  "featuring",
+  "as",
+  "in",
+  "for",
+  "to",
+  "the",
+  "academy",
+  "award",
+  "for",
+  "best",
+  "supporting",
+  "actor",
+  "actress",
+  "picture",
+  "goes",
+  "to",
   "andrew garfield",
   "javier bardem",
   "will smith",
@@ -57,19 +75,28 @@ const titles = [
   "aunjanue ellis",
 ];
 
-const wordList = titles.flatMap((t, row) => {
-  const words = t.split(" ");
-  const rowColor = please.make_color({
-    value: 0.75 + 0.1 * (rng() - 0.5),
-  });
-  return words.map((word, col) => ({
-    word,
-    row,
-    col,
-    rowColor,
-    angle: 6.0 * (rng() - 0.5),
-  }));
-});
+const wordsAndColors = titles
+  .flatMap((title) => {
+    const words = title.split(" ");
+    const color = please.make_color({
+      value: 0.75 + 0.1 * (rng() - 0.5),
+    });
+    return words.map((word) => ({ word, color }));
+  })
+  .concat(
+    others.map((word) => {
+      const color = please.make_color({
+        value: 0.75 + 0.1 * (rng() - 0.5),
+      });
+      return { word, color };
+    })
+  );
+
+const wordList = wordsAndColors.map(({ word, color }) => ({
+  word,
+  color,
+  angle: 6.0 * (rng() - 0.5),
+}));
 
 const DropTarget = () => {
   const style: CSSProperties = {
@@ -172,14 +199,14 @@ function App() {
       <div className="App">
         <DropTarget />
         <div className="Source" key="Source">
-          {wordList.map(({ word, row, rowColor, col, angle }) => (
+          {wordList.map(({ word, color, angle }) => (
             <Word
               name={word}
               onBoard={false}
               key={uuidv4()}
               style={{
                 transform: `rotate(${angle}deg`,
-                backgroundColor: rowColor,
+                backgroundColor: color,
                 display: "inline-block",
               }}
             />
